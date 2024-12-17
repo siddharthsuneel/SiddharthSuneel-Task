@@ -7,7 +7,15 @@
 
 import Foundation
 
-struct CryptoCoins: Decodable {
+protocol CryptoCoinProtocol: Decodable {
+    var name: String? { get }
+    var symbol: String? { get }
+    var isNew: Bool? { get }
+    var isActive: Bool? { get }
+    var type: CryptoType? { get }
+}
+
+struct CryptoCoin: CryptoCoinProtocol {
     let name: String?
     let symbol: String?
     let isNew: Bool?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager: NetworkService {
+class NetworkManager: NetworkServiceProtocol {
     private let session: URLSession
     private let parser: ResponseParserProtocol
 

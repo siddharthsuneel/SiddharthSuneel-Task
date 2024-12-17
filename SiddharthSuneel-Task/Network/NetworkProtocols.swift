@@ -14,7 +14,7 @@ protocol Requestable {
     var headers: [String: String]? { get }
 }
 
-protocol NetworkService {
+protocol NetworkServiceProtocol {
     func request<T: Decodable>(
         endpoint: Requestable,
         completion: @escaping (Result<T, NetworkError>) -> Void
