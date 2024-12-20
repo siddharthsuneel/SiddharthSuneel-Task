@@ -14,22 +14,23 @@ enum CryptoListViewModelObservationState {
 }
 
 class CryptoListViewModel {
-    private let networkManager: NetworkServiceProtocol
+    private let repository: CryptoListRepositoryProtocol
     private var allCryptoList: [CryptoCoinProtocol] = []
     private var filteredCryptoList: [CryptoCoinProtocol] = []
 
     var observer: (_ refreshState: CryptoListViewModelObservationState) -> Void = {_ in }
 
-    init(networkManager: NetworkServiceProtocol = NetworkManager()) {
-        self.networkManager = networkManager
+    init(repository: CryptoListRepositoryProtocol = CryptoListRepository()) {
+        self.repository = repository
     }
 
     func fetchCryptoList() {
-        networkManager.request(endpoint: CryptoCoinsEndpoint()) { [weak self] (result: Result<[CryptoCoinResponse], NetworkError>) in
+        repository.fetchCryptoList { [weak self] (result: Result<[CryptoCoinProtocol], NetworkError>) in
             guard let `self` = self else { return }
             switch result {
             case .success(let coins):
-                self.transforResponseModel(coins)
+                self.updateCoinListDataSource(coins)
+                self.observer(.success)
             case .failure(let error):
                 CLog("Error while fetching crypto list\(error)", logLevel: .error)
                 self.observer(.showError(message: "Failed to fetch."))
@@ -73,23 +74,8 @@ class CryptoListViewModel {
 }
 
 private extension CryptoListViewModel {
-    func transforResponseModel(_ response: [CryptoCoinResponse]) {
-        var list: [CryptoCoinProtocol] = []
-        response.forEach { response in
-            let model = CryptoCoin(
-                name: response.name,
-                symbol: response.symbol,
-                isNew: response.isNew,
-                isActive: response.isActive,
-                type: response.type ?? "")
-            list.append(model)
-        }
-        self.updateCoinListDataSource(list)
-    }
-
     func updateCoinListDataSource(_ list: [CryptoCoinProtocol]) {
         allCryptoList = list
         filteredCryptoList = list
-        observer(.success)
     }
 }

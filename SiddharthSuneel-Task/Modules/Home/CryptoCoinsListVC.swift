@@ -31,10 +31,10 @@ class CryptoCoinsListVC: BaseViewController {
 
 private extension CryptoCoinsListVC {
     func setup() {
+        addObservers()
         setupNavigationBar()
         registerTableViewCells()
         fetchData()
-        addObservers()
     }
 
     func setupNavigationBar() {
