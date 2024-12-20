@@ -7,6 +7,17 @@
 
 import Foundation
 
+protocol Logger {
+    func log(_ message: String)
+}
+
+// Default implementation using NSLog
+struct DefaultLogger: Logger {
+    func log(_ message: String) {
+        NSLog(message)
+    }
+}
+
 public enum LogLevel: Int {
     case verbose
     case info
@@ -51,7 +62,14 @@ public enum LogLevel: Int {
     }
 }
 
-func CLog(_ object: Any, info: [String: String]? = nil, logLevel: LogLevel = LogLevel.verbose, functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) {
+func CLog(
+    _ object: Any,
+    info: [String: String]? = nil,
+    logLevel: LogLevel = LogLevel.verbose,
+    functionName: String = #function,
+    fileName: String = #file,
+    lineNumber: Int = #line,
+    logger: Logger = DefaultLogger()) {
 
     guard logLevel.rawValue >= LogLevel.defaultLogLevel.rawValue else {
         return
@@ -65,5 +83,5 @@ func CLog(_ object: Any, info: [String: String]? = nil, logLevel: LogLevel = Log
         logString += "\nInfo: \(info)"
     }
     logString += "\n"
-    NSLog(logString)
+    logger.log(logString)
 }

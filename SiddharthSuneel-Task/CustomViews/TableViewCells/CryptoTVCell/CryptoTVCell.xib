@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="99" id="KGk-i7-Jjw" customClass="CryptoTVCell" customModule="SiddharthSuneel_Task" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zPW-sV-2Zh">
+                        <rect key="frame" x="296" y="0.0" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="zPW-sV-2Zh" secondAttribute="height" multiplier="1:1" id="qoa-kt-Q67"/>
+                            <constraint firstAttribute="width" constant="24" id="zLj-4s-IZ8"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pvA-rF-28v">
+                        <rect key="frame" x="274" y="34.666666666666664" width="30" height="29.999999999999993"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="pvA-rF-28v" secondAttribute="height" multiplier="1:1" id="6e9-M0-zuR"/>
+                            <constraint firstAttribute="width" constant="30" id="jmN-Ap-1Qn"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="15"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rjo-bc-Z98">
+                        <rect key="frame" x="16" y="10" width="248" height="79"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bee-O6-BNd">
+                                <rect key="frame" x="0.0" y="0.0" width="248" height="19.333333333333332"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Symbol" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3g0-rW-W0e">
+                                <rect key="frame" x="0.0" y="24.333333333333339" width="248" height="54.666666666666657"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rjo-bc-Z98" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="1ls-8T-7xE"/>
+                    <constraint firstAttribute="bottom" secondItem="rjo-bc-Z98" secondAttribute="bottom" constant="10" id="2v5-5c-Qux"/>
+                    <constraint firstItem="rjo-bc-Z98" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="4SE-eH-V7g"/>
+                    <constraint firstItem="zPW-sV-2Zh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6zU-yp-WSi"/>
+                    <constraint firstAttribute="trailing" secondItem="pvA-rF-28v" secondAttribute="trailing" constant="16" id="OvJ-gt-mJD"/>
+                    <constraint firstAttribute="trailing" secondItem="zPW-sV-2Zh" secondAttribute="trailing" id="rBD-gJ-Pjq"/>
+                    <constraint firstItem="pvA-rF-28v" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="siB-8O-btU"/>
+                    <constraint firstItem="pvA-rF-28v" firstAttribute="leading" secondItem="rjo-bc-Z98" secondAttribute="trailing" constant="10" id="uhN-x9-Zb8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cryptoIconImageView" destination="pvA-rF-28v" id="z2y-dL-NZD"/>
+                <outlet property="nameLabel" destination="Bee-O6-BNd" id="wKB-V5-wOk"/>
+                <outlet property="newBadgeIconImageView" destination="zPW-sV-2Zh" id="wV5-RB-fEp"/>
+                <outlet property="symbolLabel" destination="3g0-rW-W0e" id="JUZ-Ne-mu8"/>
+            </connections>
+            <point key="canvasLocation" x="138.93129770992365" y="38.380281690140848"/>
+        </tableViewCell>
+    </objects>
+</document>

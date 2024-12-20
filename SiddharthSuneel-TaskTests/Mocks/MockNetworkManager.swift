@@ -8,7 +8,7 @@
 import Foundation
 @testable import SiddharthSuneel_Task
 
-class MockNetworkManager: NetworkService {
+class MockNetworkManager: NetworkServiceProtocol {
     private let localJSONProvider = LocalJSONProvider()
 
     func request<T>(endpoint: Requestable, completion: @escaping (Result<T, NetworkError>) -> Void) where T : Decodable {
@@ -20,7 +20,6 @@ class MockNetworkManager: NetworkService {
             completion(.failure(.invalidURL))
             return
         }
-        CLog("path in testing: \(incomingUrl)", logLevel: .error)
         guard let filename = localJSONProvider.filename(for: incomingUrl) else {
             completion(.failure(.mockJSONNotFound))
             return
@@ -32,7 +31,7 @@ class MockNetworkManager: NetworkService {
             } catch let error {
                 completion(.failure(.decodingError(error)))
             }
-        }else {
+        } else {
             completion(.failure(.mockJSONNotFound))
         }
     }

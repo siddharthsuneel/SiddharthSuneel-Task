@@ -12,7 +12,8 @@ protocol CryptoCoinProtocol: Decodable {
     var symbol: String? { get }
     var isNew: Bool? { get }
     var isActive: Bool? { get }
-    var type: CryptoType? { get }
+    var type: CryptoType { get }
+    var iconName: String { get }
 }
 
 struct CryptoCoin: CryptoCoinProtocol {
@@ -20,7 +21,7 @@ struct CryptoCoin: CryptoCoinProtocol {
     let symbol: String?
     let isNew: Bool?
     let isActive: Bool?
-    let type: CryptoType?
+    let type: CryptoType
 
     enum CodingKeys: String, CodingKey {
         case name
@@ -28,6 +29,17 @@ struct CryptoCoin: CryptoCoinProtocol {
         case isNew = "is_new"
         case isActive = "is_active"
         case type
+    }
+
+    var iconName: String {
+        switch type {
+        case .coin:
+            return (isActive ?? false) ? "cyptoCoinActive" : "cyptoCoinInActive"
+        case .token:
+            return "cyptoTokenActive"
+        case .unknown:
+            return "unknown"
+        }
     }
 }
 

@@ -6,30 +6,50 @@
 //
 
 import XCTest
+@testable import SiddharthSuneel_Task
 
 final class NetworkManagerTests: XCTestCase {
+    private let mockSession = URLSessionMock()
+    private let url = CryptoCoinsEndpoint().url!
+    private let localJSONProvider = LocalJSONProvider()
+    private var sut: NetworkManager!
+    private var expectedData: Data?
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let filename = localJSONProvider.filename(for: CryptoCoinsEndpoint().path)!
+        expectedData = MockJSONManager.readMockJSONData(fromFile: filename)
+        mockSession.data = expectedData
+        mockSession.response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        sut = NetworkManager(session: mockSession)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testRequest() {
+        let expectation = self.expectation(description: "Completion handler invoked")
+        sut.request(endpoint: CryptoCoinsEndpoint()) { (result: Result<[CryptoCoin], NetworkError>) in
+            switch result {
+            case .success(let coins):
+                XCTAssertEqual(coins.count, 6)
+            case .failure(let error):
+                XCTAssertNil(error)
+            }
+            expectation.fulfill()
         }
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
 
+    func testDataTask() {
+        let expectation = self.expectation(description: "Completion handler invoked")
+        let task = mockSession.dataTask(
+            with: URLRequest(url: url)) { [weak self] data, response, error in
+            XCTAssertEqual(data, self?.expectedData)
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+        task.resume()
+        waitForExpectations(timeout: 1.0, handler: nil)
+    }
 }

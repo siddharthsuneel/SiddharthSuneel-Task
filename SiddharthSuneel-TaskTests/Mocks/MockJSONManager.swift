@@ -9,8 +9,10 @@ import Foundation
 @testable import SiddharthSuneel_Task
 
 final class MockJSONManager {
+    private static let testBundle = Bundle(for: MockJSONManager.self)
+
     class func readMockJSONData(fromFile fileName: String) -> Data? {
-        let url = Bundle.main.url(forResource: fileName, withExtension: "json")
+        let url = testBundle.url(forResource: fileName, withExtension: "json")
         do {
             if let _url = url {
                 let data = try Data(contentsOf: _url)

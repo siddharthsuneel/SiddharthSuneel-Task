@@ -6,7 +6,6 @@
 //
 
 
-typealias ProgressEmptyClosure = (ProgressProtocol) -> Void
 
 typealias JSONDictType = [String: Any]
 typealias StrJSONDictType = [String: String]
