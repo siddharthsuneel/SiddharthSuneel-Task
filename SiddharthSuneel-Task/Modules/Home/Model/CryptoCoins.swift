@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CryptoCoinProtocol: Decodable {
+protocol CryptoCoinProtocol {
     var name: String? { get }
     var symbol: String? { get }
     var isNew: Bool? { get }
@@ -17,19 +17,24 @@ protocol CryptoCoinProtocol: Decodable {
 }
 
 struct CryptoCoin: CryptoCoinProtocol {
+    init(
+        name: String? = nil,
+        symbol: String? = nil,
+        isNew: Bool? = nil,
+        isActive: Bool? = nil,
+        type: String) {
+        self.name = name
+        self.symbol = symbol
+        self.isNew = isNew
+        self.isActive = isActive
+        self.type = CryptoType.init(rawValue: type) ?? .unknown
+    }
+    
     let name: String?
     let symbol: String?
     let isNew: Bool?
     let isActive: Bool?
     let type: CryptoType
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case symbol
-        case isNew = "is_new"
-        case isActive = "is_active"
-        case type
-    }
 
     var iconName: String {
         switch type {
@@ -47,10 +52,4 @@ enum CryptoType: String, Decodable {
     case coin
     case token
     case unknown
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let rawValue = try container.decode(String.self)
-        self = CryptoType(rawValue: rawValue) ?? .unknown
-    }
 }

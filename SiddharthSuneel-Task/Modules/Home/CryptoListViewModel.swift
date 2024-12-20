@@ -25,11 +25,11 @@ class CryptoListViewModel {
     }
 
     func fetchCryptoList() {
-        networkManager.request(endpoint: CryptoCoinsEndpoint()) { [weak self] (result: Result<[CryptoCoin], NetworkError>) in
+        networkManager.request(endpoint: CryptoCoinsEndpoint()) { [weak self] (result: Result<[CryptoCoinResponse], NetworkError>) in
             guard let `self` = self else { return }
             switch result {
             case .success(let coins):
-                self.updateCoinListDataSource(coins)
+                self.transforResponseModel(coins)
             case .failure(let error):
                 CLog("Error while fetching crypto list\(error)", logLevel: .error)
                 self.observer(.showError(message: "Failed to fetch."))
@@ -70,8 +70,24 @@ class CryptoListViewModel {
             self.observer(.reloadList)
         }
     }
+}
 
-    private func updateCoinListDataSource(_ list: [CryptoCoinProtocol]) {
+private extension CryptoListViewModel {
+    func transforResponseModel(_ response: [CryptoCoinResponse]) {
+        var list: [CryptoCoinProtocol] = []
+        response.forEach { response in
+            let model = CryptoCoin(
+                name: response.name,
+                symbol: response.symbol,
+                isNew: response.isNew,
+                isActive: response.isActive,
+                type: response.type ?? "")
+            list.append(model)
+        }
+        self.updateCoinListDataSource(list)
+    }
+
+    func updateCoinListDataSource(_ list: [CryptoCoinProtocol]) {
         allCryptoList = list
         filteredCryptoList = list
         observer(.success)
