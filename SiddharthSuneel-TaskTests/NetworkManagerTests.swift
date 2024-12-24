@@ -29,7 +29,7 @@ final class NetworkManagerTests: XCTestCase {
 
     func testRequest() {
         let expectation = self.expectation(description: "Completion handler invoked")
-        sut.request(endpoint: CryptoCoinsEndpoint()) { (result: Result<[CryptoCoin], NetworkError>) in
+        sut.request(endpoint: CryptoCoinsEndpoint()) { (result: Result<[CryptoCoinResponse], NetworkError>) in
             switch result {
             case .success(let coins):
                 XCTAssertEqual(coins.count, 6)
