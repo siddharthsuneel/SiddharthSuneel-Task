@@ -96,19 +96,14 @@ class CryptoListViewModel {
         for filter in activeFilters {
             switch filter {
             case .onlyCoins:
-                CLog("", logLevel: .error)
                 filteredList = filteredList.filter { $0.type == .coin }
             case .onlyTokens:
-                CLog("", logLevel: .error)
                 filteredList = filteredList.filter { $0.type == .token }
             case .onlyActive:
-                CLog("", logLevel: .error)
                 filteredList = filteredList.filter { $0.isActive == true }
             case .onlyInActive:
-                CLog("", logLevel: .error)
                 filteredList = filteredList.filter { $0.isActive == false }
             case .onlyNewCoins:
-                CLog("", logLevel: .error)
                 filteredList = filteredList.filter { $0.isNew == true }
             }
         }
