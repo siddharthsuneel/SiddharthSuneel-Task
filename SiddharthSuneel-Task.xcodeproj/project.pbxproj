@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2BB285B92D1C3D3700AD15CC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2BB285B82D1C3D3700AD15CC /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2BF81D2C2D105D0C00E1CB89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2BB285B82D1C3D3700AD15CC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2BF81D152D105D0B00E1CB89 /* SiddharthSuneel-Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SiddharthSuneel-Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF81D2B2D105D0C00E1CB89 /* SiddharthSuneel-TaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiddharthSuneel-TaskTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF81D352D105D0C00E1CB89 /* SiddharthSuneel-TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiddharthSuneel-TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +93,7 @@
 		2BF81D0C2D105D0B00E1CB89 = {
 			isa = PBXGroup;
 			children = (
+				2BB285B82D1C3D3700AD15CC /* README.md */,
 				2BF81D172D105D0B00E1CB89 /* SiddharthSuneel-Task */,
 				2BF81D2E2D105D0C00E1CB89 /* SiddharthSuneel-TaskTests */,
 				2BF81D382D105D0C00E1CB89 /* SiddharthSuneel-TaskUITests */,
@@ -225,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BB285B92D1C3D3700AD15CC /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
