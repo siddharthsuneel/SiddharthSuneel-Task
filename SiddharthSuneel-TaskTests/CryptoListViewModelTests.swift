@@ -61,7 +61,7 @@ final class CryptoListViewModelTests: XCTestCase {
     func testFilterCryptoList() {
         mockRepository.result = MockCoinList.list()
         let expectation = self.expectation(description: "Completion handler invoked")
-        func performFilter() {
+        func performSearch() {
             sut.searchInCryptoList(with: "Bit")
         }
 
@@ -75,7 +75,7 @@ final class CryptoListViewModelTests: XCTestCase {
             XCTAssertNotNil(state)
             switch state {
             case .success:
-                performFilter()
+                performSearch()
             case .reloadList:
                 runSearchUT()
             case .showError(let message):
@@ -113,6 +113,34 @@ final class CryptoListViewModelTests: XCTestCase {
                 if reloadCount == 2 {
                     runCancelSearchUT()
                 }
+            case .showError(let message):
+                XCTAssertNil(message)
+            }
+        }
+        sut.fetchCryptoList()
+        waitForExpectations(timeout: 2.0, handler: nil)
+    }
+
+    func testApplyFilter_WithOnlyActive() {
+        mockRepository.result = MockCoinList.list()
+        let expectation = self.expectation(description: "Completion handler invoked")
+        func performFilter() {
+            sut.applyFilter(options: [.onlyActive, .onlyNewCoins])
+        }
+
+        func runFilterUT() {
+            XCTAssertEqual(sut.numberOfRows(), 1)
+            XCTAssertEqual(sut.cellModel(for: IndexPath(row: 0, section: 0))?.name, "Cardano")
+            expectation.fulfill()
+        }
+
+        sut.observer = { (state) in
+            XCTAssertNotNil(state)
+            switch state {
+            case .success:
+                performFilter()
+            case .reloadList:
+                runFilterUT()
             case .showError(let message):
                 XCTAssertNil(message)
             }
