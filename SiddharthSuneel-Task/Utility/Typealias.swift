@@ -6,6 +6,6 @@
 //
 
 
-
 typealias JSONDictType = [String: Any]
 typealias StrJSONDictType = [String: String]
+typealias EmptyClosure = () -> Void

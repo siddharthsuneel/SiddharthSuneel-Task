@@ -17,6 +17,7 @@ class CryptoListViewModel {
     private let repository: CryptoListRepositoryProtocol
     private var allCryptoList: [CryptoCoinProtocol] = []
     private var filteredCryptoList: [CryptoCoinProtocol] = []
+    private var activeFilters: Set<Constants.CryptoFilterOption> = []
 
     var observer: (_ refreshState: CryptoListViewModelObservationState) -> Void = {_ in }
 
@@ -26,14 +27,18 @@ class CryptoListViewModel {
 
     func fetchCryptoList() {
         repository.fetchCryptoList { [weak self] (result: Result<[CryptoCoinProtocol], NetworkError>) in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch result {
             case .success(let coins):
-                self.updateCoinListDataSource(coins)
-                self.observer(.success)
+                DispatchQueue.main.async {
+                    self.updateCoinListMasterDataSource(coins)
+                    self.observer(.success)
+                }
             case .failure(let error):
-                CLog("Error while fetching crypto list\(error)", logLevel: .error)
-                self.observer(.showError(message: "Failed to fetch."))
+                DispatchQueue.main.async {
+                    CLog("Error while fetching crypto list\(error)", logLevel: .error)
+                    self.observer(.showError(message: "Failed to fetch."))
+                }
             }
         }
     }
@@ -71,10 +76,48 @@ class CryptoListViewModel {
             self.observer(.reloadList)
         }
     }
+
+    func applyFilter(options: [Constants.CryptoFilterOption]) {
+        activeFilters.removeAll()
+        options.forEach { option in
+            activeFilters.insert(option)
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let filtered = self.applyActiveFilters(on: self.allCryptoList)
+            DispatchQueue.main.async {
+                self.filteredCryptoList = filtered
+                self.observer(.reloadList)
+            }
+        }
+    }
+
+    private func applyActiveFilters(on list: [CryptoCoinProtocol]) -> [CryptoCoinProtocol] {
+        var filteredList = list
+        for filter in activeFilters {
+            switch filter {
+            case .onlyCoins:
+                CLog("", logLevel: .error)
+                filteredList = filteredList.filter { $0.type == .coin }
+            case .onlyTokens:
+                CLog("", logLevel: .error)
+                filteredList = filteredList.filter { $0.type == .token }
+            case .onlyActive:
+                CLog("", logLevel: .error)
+                filteredList = filteredList.filter { $0.isActive == true }
+            case .onlyInActive:
+                CLog("", logLevel: .error)
+                filteredList = filteredList.filter { $0.isActive == false }
+            case .onlyNewCoins:
+                CLog("", logLevel: .error)
+                filteredList = filteredList.filter { $0.isNew == true }
+            }
+        }
+        return filteredList
+    }
 }
 
 private extension CryptoListViewModel {
-    func updateCoinListDataSource(_ list: [CryptoCoinProtocol]) {
+    func updateCoinListMasterDataSource(_ list: [CryptoCoinProtocol]) {
         allCryptoList = list
         filteredCryptoList = list
     }
