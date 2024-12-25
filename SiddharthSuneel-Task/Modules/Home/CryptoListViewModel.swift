@@ -90,8 +90,15 @@ class CryptoListViewModel {
             }
         }
     }
+}
 
-    private func applyActiveFilters(on list: [CryptoCoinProtocol]) -> [CryptoCoinProtocol] {
+private extension CryptoListViewModel {
+    func updateCoinListMasterDataSource(_ list: [CryptoCoinProtocol]) {
+        allCryptoList = list
+        filteredCryptoList = list
+    }
+
+    func applyActiveFilters(on list: [CryptoCoinProtocol]) -> [CryptoCoinProtocol] {
         var filteredList = list
         for filter in activeFilters {
             switch filter {
@@ -108,12 +115,5 @@ class CryptoListViewModel {
             }
         }
         return filteredList
-    }
-}
-
-private extension CryptoListViewModel {
-    func updateCoinListMasterDataSource(_ list: [CryptoCoinProtocol]) {
-        allCryptoList = list
-        filteredCryptoList = list
     }
 }

@@ -24,6 +24,7 @@ final class CryptoListViewModelTests: XCTestCase {
     }
 
     func testFetchCryptoListSuccess() {
+        let expectation = self.expectation(description: "Completion handler invoked")
         mockRepository.result = MockCoinList.list()
         sut.observer = { [weak self] (state) in
             XCTAssertNotNil(state)
@@ -31,14 +32,17 @@ final class CryptoListViewModelTests: XCTestCase {
             case .reloadList, .success:
                 let dataCount = self?.sut.numberOfRows()
                 XCTAssertEqual(dataCount, InputStubs.expectedCryptoCount)
+                expectation.fulfill()
             case .showError(let message):
                 XCTAssertNil(message)
             }
         }
         sut.fetchCryptoList()
+        waitForExpectations(timeout: 2.0, handler: nil)
     }
 
     func testFetchCryptoListFailure() {
+        let expectation = self.expectation(description: "Completion handler invoked")
         mockRepository.result = .failure(.invalidResponse)
         sut.observer = { (state) in
             XCTAssertNotNil(state)
@@ -47,9 +51,11 @@ final class CryptoListViewModelTests: XCTestCase {
             case .showError(let message):
                 XCTAssertNotNil(message)
                 XCTAssertEqual(message, InputStubs.expectedErrorMsg)
+                expectation.fulfill()
             }
         }
         sut.fetchCryptoList()
+        waitForExpectations(timeout: 2.0, handler: nil)
     }
 
     func testFilterCryptoList() {
